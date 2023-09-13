@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+
+</head>
+<body>
+
+
+    <canvas id="x"   style=" border: solid 1px silver;"
+        hx-on:mousemove="draw(event, '')" hx-on:mousedown="draw(event, 'down')" hx-on:mouseup="draw(event, 'up')" 
+        hx-on:
+    
+    ></canvas>
+
+    <div id="output"></div>
+ 
+
+    <script>
+
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+
+        let mouse = '';
+        
+        const el = document.getElementById('x')
+        el.width = screenWidth
+        el.height = screenHeight
+
+        const output = document.getElementById('output')
+        const ctx = el.getContext("2d");
+
+
+        let lastx = 0
+        let lasty = 0
+
+
+
+        function draw(event, mouseState) {
+            event.preventDefault()
+
+            if (mouseState != '')
+            {
+                mouse = mouseState;
+            }   
+            console.log(event, mouse)
+            ctx.moveTo(lastx, lasty)
+       
+            if (mouse == 'down')  {            
+                if (event.which === 3) {
+                                       
+                    ctx.reset()
+                    
+                } else {
+                    ctx.lineTo(event.x, event.y)
+                    ctx.stroke()
+                }
+                
+            }
+             
+            output.innerHTML = event.x + ', ' + event.y
+            lastx = event.x
+            lasty = event.y
+            return false;
+        }
+
+    </script>
+    
+</body>
+</html>
